@@ -14,7 +14,7 @@ class Day6_2021 {
         solution(mp);
     }
 
-    static function parsefile(): Map<Int, Int64> {
+    static function parsefile(): Map<Int,Int64> {
         var con:AI = [for (i in sys.io.File.getContent('Advent Files_2021/Day6.txt').split(',')) parseInt(i)];
         var mp: Map<Int, Int64> = [];
         for (i in 0...9) mp.set(i, 0);
