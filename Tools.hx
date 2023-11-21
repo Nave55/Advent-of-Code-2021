@@ -15,8 +15,14 @@ macro function swap(a:Expr, b:Expr) {
     return macro {var v = $a; $a = $b; $b = v;};
 }
 
-function sum(arr:Array<Int>):Int {
+function intSum(arr:Array<Int>):Int {
     var ttl = 0;
+    for (i in arr) ttl += i;
+    return ttl;
+}
+
+function floatSum(arr:Array<Float>):Float {
+    var ttl:Float = 0;
     for (i in arr) ttl += i;
     return ttl;
 }
