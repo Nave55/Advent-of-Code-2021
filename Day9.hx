@@ -15,22 +15,19 @@ class Day9 {
 
     static function parsefile() {
         var con: AS = [for (i in sys.io.File.getContent('Advent Files_2021/Day9.txt').split('\n')) trim(i)];
-        var arr: AS = [];
         var nines = [for (i in 0...con[0].length + 2) '9'].join("");
-        for (i in con) arr.push(i.insertAt(0, '9') + '9');
-        arr.push(nines);
-        arr.insert(0, nines);
+        var arr: AS = [nines].concat([for (i in con) i.insertAt(0, '9') + '9']).concat([nines]);
         var arr: AAI = [for (i in arr) i.split('').map(item -> parseInt(item))]; 
         return arr;
     }
 
     static function solution1(arr: AAI) {
         var ttl = 0;
-        var row_len = arr.length;
-        var col_len = arr[0].length;
+        var row_len = arr.length - 1;
+        var col_len = arr[0].length - 1;
         var lows: AAI = [];
-        for (i in 1...row_len-1) {
-            for (j in 1...col_len-1) {
+        for (i in 1...row_len) {
+            for (j in 1...col_len) {
                 if (arr[i][j] < arr[i][j-1] && arr[i][j] < arr[i][j+1] &&
                     arr[i][j] < arr[i-1][j] && arr[i][j] < arr[i+1][j]) { 
                         ttl += arr[i][j] + 1;
