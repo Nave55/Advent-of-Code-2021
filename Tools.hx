@@ -56,9 +56,9 @@ macro function swap(a:Expr, b:Expr) {
 
         addArrs(arr1, arr2) -> [2, 4, 6, 8]
         
-@param arr An array of ints.
-@param arr2 An array of ints.
-@return An Array<Int>
+@param arr An AI.
+@param arr2 An AI.
+@return An AI
 */
 
 inline function addArrs(arr: AI, arr2: AI): AI {
@@ -66,23 +66,53 @@ inline function addArrs(arr: AI, arr2: AI): AI {
 }
 
 /**
- * [Find value in Arrays<Array<Any>> using an Array<Int>]
+ * [Find value in AAA using an AI]
  
-    Example:
-    
+    Example:'
+
         var arr =  [[1, 2, 3], [4, 5]]
 
         var arr2 = [0, 0]
 
         arrValue(arr, arr2) -> [1, 2, 3]
 
-@param arr An Arrays<Array<Any>>
-@param arr2 An Arrays<Int>
-@return An Any value
+@param arr An AAA
+@param arr2 An AI
+@return An AI
 */
 
 inline function arrValue(arr: AAA, arr2: AI) {
     return arr[arr2[0]][arr2[1]];
+}
+
+/**
+ * [Get list of neighbor indices and values in a 2d array.]
+ 
+    Example:'
+
+        var arr =  [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+        var loc = [1, 1]
+
+        arrValue(arr, loc) -> {indices: [[0, 1], [2, 1], [1, 2], [1 ,0]], values: [2, 8, 7, 9]}
+
+@param arr An AAA
+@param loc An AI
+@return A struct of AAI and AI
+*/
+
+function nbrs(arr: AAA, loc: AI) {
+    var dir = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+    var indices: AAI = [];
+    var vals: AI = [];
+    for (i in dir) {
+        var tmp = addArrs(loc, i);
+        if (tmp[0] != -1 && tmp[1] != -1 && tmp[0] != arr.length && tmp[1] != arr[0].length) {
+            indices.push(tmp);
+            vals.push(arrValue(arr, tmp));
+        }
+    }
+    return {indices: indices, vals: vals};
 }
 
 /**
