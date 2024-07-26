@@ -46,7 +46,7 @@ class Day9 {
         var basin = [for (i in lows) [i]];
         var m = [for (i in lows) [i.join("") => arrValue(arr, i)]];
         
-        while (true) {
+        while (basin.count(item -> item.empty()) != basin.length) {
             for (ind => i in basin) {
                 var tmp: AAI = [];
                 for (j in i) {
@@ -62,7 +62,6 @@ class Day9 {
                 }
                 basin[ind] = tmp;
             }
-            if (basin.filter(item -> item.length == 0).length == basin.length) break;
         }
         var sol = [for (i in m) i.count()];
         sol.sort((a, b) -> b - a);
