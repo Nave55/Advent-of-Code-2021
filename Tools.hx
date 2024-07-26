@@ -1,40 +1,134 @@
+import haxe.macro.Type.AnonType;
 import haxe.macro.Expr;
 import haxe.Int64;
 import Std.*;
+import Math.*;
+
 using Lambda;
 using hx.strings.Strings;
 
-typedef AS = Array<String>;
-typedef AI = Array<Int>;
-typedef AF = Array<Float>;
-typedef AAS = Array<Array<String>>;
-typedef AAI = Array<Array<Int>>;
-typedef AAF = Array<Array<Float>>;
+typedef AS =   Array<String>;
+typedef AI =   Array<Int>;
+typedef AA =   Array<Any>;
+typedef AF =   Array<Float>;
+typedef ANI =  Array<Null<Int>>;
+typedef ANF =  Array<Null<Float>>;
+typedef AAS =  Array<Array<String>>;
+typedef AAI =  Array<Array<Int>>;
+typedef AAF =  Array<Array<Float>>;
+typedef AAA =   Array<Array<Any>>;
+typedef AANI = Array<Array<Null<Int>>>;
+typedef AANF = Array<Array<Null<Float>>>;
 typedef AAAS = Array<Array<Array<String>>>;
 typedef AAAI = Array<Array<Array<Int>>>;
 typedef AAAF = Array<Array<Array<Float>>>;
-typedef MII = Map<Int,Int>;
-typedef MSI = Map<String,Int>;
-typedef MIS = Map<Int,String>;
-typedef MSS = Map<String,String>;
-typedef MI64 = Map<Int, Int64>;
-typedef MS64 = Map<String,Int64>;
+typedef MII =  Map<Int,    Int>;
+typedef MSI =  Map<String, Int>;
+typedef MIS =  Map<Int,    String>;
+typedef MSS =  Map<String, String>;
+typedef MI64 = Map<Int,    Int64>;
+typedef MS64 = Map<String, Int64>;
+
+/**
+ * [Swaps two variables]
+ 
+    Example:
+
+        swap(a, b) -> Void
+
+@param a The first variable
+@param b The second variable
+@return No return value
+*/
 
 macro function swap(a:Expr, b:Expr) {
     return macro {var v = $a; $a = $b; $b = v;};
 }
 
-inline function intSum(arr: Array<Int>):Int {
+/**
+ * [Adds the values of two arrays together to form a new array]
+ 
+    Example:
+
+        var arr1 = [1, 2, 3, 4];
+
+        var arr2 = [1, 2, 3, 4];
+
+        addArrs(arr1, arr2) -> [2, 4, 6, 8]
+        
+@param arr An array of ints.
+@param arr2 An array of ints.
+@return An Array<Int>
+*/
+
+inline function addArrs(arr: AI, arr2: AI): AI {
+    return [for (i in 0...arr.length) arr[i] + arr2[i]];
+}
+
+/**
+ * [Find value in Arrays<Array<Any>> using an Array<Int>]
+ 
+    Example:
+    
+        var arr =  [[1, 2, 3], [4, 5]]
+
+        var arr2 = [0, 0]
+
+        arrValue(arr, arr2) -> [1, 2, 3]
+
+@param arr An Arrays<Array<Any>>
+@param arr2 An Arrays<Int>
+@return An Any value
+*/
+
+inline function arrValue(arr: AAA, arr2: AI) {
+    return arr[arr2[0]][arr2[1]];
+}
+
+/**
+ * [Sums an array of Ints]
+ 
+    Example:
+        
+        intSum([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) -> 55
+
+@param arr An array that you want the sum of.
+@return An Int value
+*/
+
+inline function intSum(arr: Array<Int>): Int {
     var ttl = 0;
     for (i in arr) ttl += i;
     return ttl;
 }
 
-inline function floatSum(arr: Array<Float>):Float {
+/**
+ * [Sums an array of Floats]
+ 
+    Example:
+        
+        floatSum([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]) -> 55.0
+
+@param arr An array that you want the sum of.
+@return A Float value
+*/
+
+inline function floatSum(arr: Array<Float>): Float {
     var ttl:Float = 0;
     for (i in arr) ttl += i;
     return ttl;
 }
+
+/**
+ * [Product of an array of Ints]
+ 
+    Example:
+        
+        intProd([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) -> 3,628,800
+
+@param arr An array that you want the product of.
+@return An Int value
+*/
 
 inline function intProd(arr: Array<Int>): Int {
     var ttl = 1;
@@ -42,11 +136,67 @@ inline function intProd(arr: Array<Int>): Int {
     return ttl;
 }
 
+/**
+ * [Product of an array of Floats]
+ 
+    Example:
+        
+        floatProd([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]) -> 3,628,800
+
+@param arr An array that you want the sum of.
+@return A Float value
+*/
+
 inline function floatProd(arr: Array<Float>): Float {
     var ttl:Float = 1.0;
     for (i in arr) ttl *= i;
     return ttl;
 }
+
+/**
+ * [Min value of an array]
+ 
+    Example:
+        
+        minVal([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]) -> 1.0
+
+@param arr An array that you want to find the min value for.
+@return A Float value
+*/
+
+inline function minVal(arr: Array<Any>): Float {
+    var tmp: Float = arr[0];
+    for (i in 1...arr.length) tmp = Math.min(tmp, arr[i]);
+    return tmp;
+}
+
+/**
+ * [Max value of an array]
+ 
+    Example:
+        
+        maxVal([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]) -> 10.0
+
+@param arr An array that you want to find the max value for.
+@return A Float value
+*/
+
+inline function maxVal(arr: Array<Any>): Float {
+    var tmp: Float = arr[0];
+    for (i in 1...arr.length) tmp = Math.max(tmp, arr[i]);
+    return tmp;
+}
+
+/**
+ * [Converts binary to decimal]
+ 
+    Example:
+
+        binaryToDecimal("01011100") -> "92"
+
+@param str The string to be converted.
+@return Returns a string representation of the decimal value.
+*/
 
 inline function binaryToDecimal(str: String): String {
     var iter = str.length - 1;
@@ -59,34 +209,53 @@ inline function binaryToDecimal(str: String): String {
     return string(ttl);
 }
 
-inline function decimalToBinary(num: Int): String {    
+/**
+ * [Converts decimal to binary]
+ 
+    Example:
+
+        binaryToDecimal("92") -> "1011100"
+
+        binaryToDecimal("92", true) -> "01011100"
+
+@param num The Int to be converted
+@param eight Boolean that insures the string has 8 values
+@return Returns a string representation of the binary value.
+*/
+
+inline function decimalToBinary(num: Int, eight = false): String {    
     var strs: String = ""; 
     while (num > 0) {
         if (num & 1 == 1) strs += "1";
         else strs += "0";
         num >>= 1;
     }
+    if (eight) for (i in 0...8 - strs.length) strs += "0";
     return strs.reverse();
 }
 
 /**
- * [Sort string alphabetically] 
- * - Ex: "edcba" -> "abcde"
- * @param str
- * @return String
- */
+ * [Sort string alphabetically]
+ 
+    Example:
 
-inline function alphabetSort(str: String): String {
+        alpabetSort("edcba") -> "abcde"
+        alphabetSort("edcba", true) -> "edcba"
+
+@param str The string to be sorted.
+@param reverse A boolean to indicate whether the string should be reversed.
+@return Returns a sorted string
+*/
+
+function alphabetSort(str: String, reverse = false): String {
     var arr: AI = [];
-    var sort_str = "";
     for (i in 0...str.length) arr.push(str.charCodeAt(i));
-    arr.sort((a,b) -> a - b);
-    for (i in arr) sort_str += i.toChar();
-    return sort_str;
+    !reverse ? arr.sort((a, b) -> a - b) : arr.sort((a, b) -> b - a);
+    return arr.map(item -> item.toChar().toString()).join("");
 }
 
 /**
- * [Allows for the use of the '|' pipeline operator]
+ * Allows for the use of the '|' pipeline operator
  
     Example: 
 
