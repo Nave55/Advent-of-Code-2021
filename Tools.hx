@@ -98,13 +98,13 @@ inline function arrValue(arr: AAA, arr2: AI) {
 
 @param arr An AAA
 @param loc An AI
-@return A struct of AAI and AI
+@return A struct of AAI and AA
 */
 
 function nbrs(arr: AAA, loc: AI) {
     var dir = [[0, 1], [0, -1], [1, 0], [-1, 0]];
     var indices: AAI = [];
-    var vals: AI = [];
+    var vals: AA = [];
     for (i in dir) {
         var tmp = addArrs(loc, i);
         if (tmp[0] != -1 && tmp[1] != -1 && tmp[0] != arr.length && tmp[1] != arr[0].length) {
