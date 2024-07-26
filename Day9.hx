@@ -25,7 +25,7 @@ class Day9 {
         for (row => rval in arr) {
             for (col => cval in rval) {
                 var tmp = nbrs(arr, [row, col]).vals;
-                if (tmp.filter(item -> item > cval).length == tmp.length) {
+                if (tmp.filter(item -> cast(item, Int) > cval).length == tmp.length) {
                     ttl += cval + 1;
                     lows.push([row, col]);
                 }
