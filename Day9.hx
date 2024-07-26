@@ -14,12 +14,12 @@ class Day9 {
     }
 
     static function parsefile() {
-        var con: AS = [for (i in sys.io.File.getContent('Advent Files_2021/Day9.txt').split('\n')) trim(i)];
-        var arr: AAI = [for (i in con) i.split('').map(item -> parseInt(item))]; 
+        var con: AS =   [for (i in sys.io.File.getContent('Advent Files_2021/Day9.txt').split('\n')) trim(i)];
+        var arr: AANI = [for (i in con) i.split('').map(item -> parseInt(item))]; 
         return arr;
     }
 
-    static function solution1(arr: AAI) {
+    static function solution1(arr: AANI) {
         var ttl = 0;
         var lows: AAI = [];
         for (row => rval in arr) {
@@ -34,7 +34,7 @@ class Day9 {
         return {lows: lows, pt1: ttl};
     }
 
-    static function solution2(arr: AAI, lows: AAI) {
+    static function solution2(arr: AANI, lows: AAI) {
         var basin = [for (i in lows) [i]];
         var m = [for (i in lows) [i.join("") => arrValue(arr, i)]];
         
