@@ -122,11 +122,11 @@ function nbrs(arr: AAA, loc: AI) {
         
         intSum([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) -> 55
 
-@param arr An array that you want the sum of.
+@param arr An AI.
 @return An Int value
 */
 
-inline function intSum(arr: Array<Int>): Int {
+inline function intSum(arr: AI): Int {
     var ttl = 0;
     for (i in arr) ttl += i;
     return ttl;
@@ -139,11 +139,11 @@ inline function intSum(arr: Array<Int>): Int {
         
         floatSum([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]) -> 55.0
 
-@param arr An array that you want the sum of.
+@param arr An AF.
 @return A Float value
 */
 
-inline function floatSum(arr: Array<Float>): Float {
+inline function floatSum(arr: AF): Float {
     var ttl:Float = 0;
     for (i in arr) ttl += i;
     return ttl;
@@ -156,11 +156,11 @@ inline function floatSum(arr: Array<Float>): Float {
         
         intProd([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) -> 3,628,800
 
-@param arr An array that you want the product of.
+@param arr An AI.
 @return An Int value
 */
 
-inline function intProd(arr: Array<Int>): Int {
+inline function intProd(arr: AI): Int {
     var ttl = 1;
     for (i in arr) ttl *= i;
     return ttl;
@@ -173,11 +173,11 @@ inline function intProd(arr: Array<Int>): Int {
         
         floatProd([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]) -> 3,628,800
 
-@param arr An array that you want the sum of.
+@param arr An AF.
 @return A Float value
 */
 
-inline function floatProd(arr: Array<Float>): Float {
+inline function floatProd(arr: AF): Float {
     var ttl:Float = 1.0;
     for (i in arr) ttl *= i;
     return ttl;
@@ -190,11 +190,11 @@ inline function floatProd(arr: Array<Float>): Float {
         
         minVal([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]) -> 1.0
 
-@param arr An array that you want to find the min value for.
+@param arr An AA.
 @return A Float value
 */
 
-inline function minVal(arr: Array<Any>): Float {
+inline function minVal(arr: AA): Float {
     var tmp: Float = arr[0];
     for (i in 1...arr.length) tmp = Math.min(tmp, arr[i]);
     return tmp;
@@ -207,11 +207,11 @@ inline function minVal(arr: Array<Any>): Float {
         
         maxVal([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]) -> 10.0
 
-@param arr An array that you want to find the max value for.
+@param arr An AA.
 @return A Float value
 */
 
-inline function maxVal(arr: Array<Any>): Float {
+inline function maxVal(arr: AA): Float {
     var tmp: Float = arr[0];
     for (i in 1...arr.length) tmp = Math.max(tmp, arr[i]);
     return tmp;
