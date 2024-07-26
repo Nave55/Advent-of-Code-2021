@@ -6,3 +6,5 @@ Solutions will be in haxe.
 External Libraries - 
 
 haxe-strings - https://lib.haxe.org/p/haxe-strings/
+
+custom functions in Tools.hx
