@@ -96,13 +96,16 @@ inline function arrValue(arr: AAA, arr2: AI) {
 
         arrValue(arr, loc) -> {indices: [[0, 1], [2, 1], [1, 2], [1 ,0]], values: [2, 8, 7, 9]}
 
-@param arr An AAA
-@param loc An AI
+@param arr An AAA to search in
+@param loc An AI location to start at
+@param diagonal Boolean to indicate if you want diagonal values
 @return A struct of AAI and AA
 */
 
-function nbrs(arr: AAA, loc: AI) {
-    var dir = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+function nbrs(arr: AAA, loc: AI, diag: Bool = false) {
+    var dir: AAI = [];
+    if (!diag) dir = [[-1, 0], [0, -1], [0, 1], [1, 0]];
+    else dir = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
     var indices: AAI = [];
     var vals: AA = [];
     for (i in dir) {
@@ -256,8 +259,7 @@ inline function binaryToDecimal(str: String): String {
 inline function decimalToBinary(num: Int, eight = false): String {    
     var strs: String = ""; 
     while (num > 0) {
-        if (num & 1 == 1) strs += "1";
-        else strs += "0";
+        num & 1 == 1 ? strs += "1" : strs += "0";
         num >>= 1;
     }
     if (eight) for (i in 0...8 - strs.length) strs += "0";
@@ -278,10 +280,9 @@ inline function decimalToBinary(num: Int, eight = false): String {
 */
 
 function alphabetSort(str: String, reverse = false): String {
-    var arr: AI = [];
-    for (i in 0...str.length) arr.push(str.charCodeAt(i));
-    !reverse ? arr.sort((a, b) -> a - b) : arr.sort((a, b) -> b - a);
-    return arr.map(item -> item.toChar().toString()).join("");
+    var str_arr = str.split(''); 
+    !reverse ? str_arr.sort((a, b) -> a.charCodeAt(0) - b.charCodeAt(0)) : str_arr.sort((a, b) -> b.charCodeAt(0) - a.charCodeAt(0));
+    return str_arr.join('');
 }
 
 /**
