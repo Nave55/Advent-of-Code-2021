@@ -61,7 +61,7 @@ class Day4 {
         return 0;
     }
 
-    static inline function loser(boards:AAAS, boards2:AAAS, nums:AI): Int {
+    static function loser(boards:AAAS, boards2:AAAS, nums:AI): Int {
         var final_num = 0, last_win = 0, board = 0, sum = 0;
         for (k in nums) {
             for (i in 0...boards.length) {
