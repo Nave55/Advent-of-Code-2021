@@ -24,8 +24,8 @@ class Day10 {
                                        "[" => "]", "{" => "}", "(" => ")", "<" => ">"];
         var scorer: Map<String, Int> =  [")" => 3, "]" => 57, "}" => 1197, ">" => 25137];
         var scorer2: Map<String, Int> = [")" => 1, "]" => 2, "}" => 3, ">" => 4];
-        var incomplete: Array<GenericStack<String>> = [];
         var ttl = 0;
+        var ttl2: AI64 = [];
         
         for (i in con) {
             var b = new GenericStack<String>();
@@ -38,17 +38,14 @@ class Day10 {
                     break;
                 }
             }
-            if (b.first() != "Corrupt") incomplete.push(b);
-        }
-
-        var ttl2: AI64 = [];
-        for (i in incomplete) {
-            var tmp: Int64 = 0;
-            for (j in i) {
-                tmp *= 5;
-                tmp += scorer2[mp[j]];
+            if (b.first() != "Corrupt") {
+                var tmp: Int64 = 0;
+                for (j in b) {
+                    tmp *= 5;
+                    tmp += scorer2[mp[j]];
+                }
+                ttl2.push(tmp);
             }
-            ttl2.push(tmp);
         }
 
         ttl2.sort((a, b) -> Int64.compare(a, b));
