@@ -11,6 +11,7 @@ typedef AS =   Array<String>;
 typedef AI =   Array<Int>;
 typedef AA =   Array<Any>;
 typedef AF =   Array<Float>;
+typedef AI64 =  Array<Int64>;
 typedef ANI =  Array<Null<Int>>;
 typedef ANF =  Array<Null<Float>>;
 typedef AAS =  Array<Array<String>>;
@@ -22,6 +23,7 @@ typedef AANF = Array<Array<Null<Float>>>;
 typedef AAAS = Array<Array<Array<String>>>;
 typedef AAAI = Array<Array<Array<Int>>>;
 typedef AAAF = Array<Array<Array<Float>>>;
+typedef AAANI = Array<Array<Array<Null<Int>>>>;
 typedef MII =  Map<Int,    Int>;
 typedef MSI =  Map<String, Int>;
 typedef MIS =  Map<Int,    String>;
@@ -30,14 +32,43 @@ typedef MI64 = Map<Int,    Int64>;
 typedef MS64 = Map<String, Int64>;
 
 /**
+ * [Reverse Iterator]
+ 
+    Example:
+
+        var arr = [1, 2, 3, 4, 5];
+
+        for (i in new ReverseIterator(arr.length - 1, 0)) {
+            trace(i);       
+        }
+
+@param a Start
+@param b End
+@return No return value
+*/
+
+class ReverseIterator {
+    var end:Int;
+    var i:Int;
+  
+    public inline function new(start:Int, end:Int) {
+      this.i = start;
+      this.end = end;
+    }
+  
+    public inline function hasNext() return i >= end;
+    public inline function next() return i--;
+  }
+
+/**
  * [Swaps two variables]
  
     Example:
 
         swap(a, b) -> Void
 
-@param a The first variable
-@param b The second variable
+@param start The first variable
+@param end The second variable
 @return No return value
 */
 
@@ -50,19 +81,26 @@ macro function swap(a:Expr, b:Expr) {
  
     Example:
 
-        var arr1 = [1, 2, 3, 4];
+        var arr1 = new Vec([1, 2, 3, 4]);
 
         var arr2 = [1, 2, 3, 4];
 
-        addArrs(arr1, arr2) -> [2, 4, 6, 8]
+        arr1 + arr2 -> [2, 4, 6, 8]
         
-@param arr An AI.
-@param arr2 An AI.
+@param arr An Array<T: Float>
+@param arr2 An Array<T: Float>
 @return An AI
 */
 
-inline function addArrs(arr: AI, arr2: AI): AI {
-    return [for (i in 0...arr.length) arr[i] + arr2[i]];
+abstract Vec<T: Float>(Array<T>) {
+    public inline function new(s: Array<T>) {
+      this = s;
+    }
+
+    @:op(A + B)
+    public inline function addArrs(arr: Array<T>): Array<T> {
+        return [for (i in 0...arr.length) arr[i] + this[i]];
+    }
 }
 
 /**
@@ -70,11 +108,11 @@ inline function addArrs(arr: AI, arr2: AI): AI {
  
     Example:'
 
-        var arr =  [[1, 2, 3], [4, 5]]
+        var arr =  [[1, 2, 3], [4, 5]];
 
-        var arr2 = [0, 0]
+        var arr2 = [0, 0];
 
-        arrValue(arr, arr2) -> [1, 2, 3]
+        arrValue(arr, arr2) -> 1
 
 @param arr An AAA
 @param arr2 An AI
@@ -90,9 +128,9 @@ inline function arrValue(arr: AAA, arr2: AI) {
  
     Example:'
 
-        var arr =  [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+        var arr =  [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
 
-        var loc = [1, 1]
+        var loc = [1, 1];
 
         arrValue(arr, loc) -> {indices: [[0, 1], [2, 1], [1, 2], [1 ,0]], values: [2, 8, 7, 9]}
 
@@ -104,12 +142,14 @@ inline function arrValue(arr: AAA, arr2: AI) {
 
 function nbrs(arr: AAA, loc: AI, diag: Bool = false) {
     var dir: AAI = [];
+    var loc = new Vec(loc);
+
     if (!diag) dir = [[-1, 0], [0, -1], [0, 1], [1, 0]];
     else dir = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
     var indices: AAI = [];
     var vals: AA = [];
     for (i in dir) {
-        var tmp = addArrs(loc, i);
+        var tmp = loc + i;
         if (tmp[0] != -1 && tmp[1] != -1 && tmp[0] != arr.length && tmp[1] != arr[0].length) {
             indices.push(tmp);
             vals.push(arrValue(arr, tmp));
@@ -130,9 +170,7 @@ function nbrs(arr: AAA, loc: AI, diag: Bool = false) {
 */
 
 inline function intSum(arr: AI): Int {
-    var ttl = 0;
-    for (i in arr) ttl += i;
-    return ttl;
+    return arr.fold((num: Int, ttl: Int) -> num + ttl, 0);
 }
 
 /**
@@ -147,9 +185,7 @@ inline function intSum(arr: AI): Int {
 */
 
 inline function floatSum(arr: AF): Float {
-    var ttl:Float = 0;
-    for (i in arr) ttl += i;
-    return ttl;
+    return arr.fold((num: Float, ttl: Float) -> num + ttl, 0);
 }
 
 /**
@@ -164,9 +200,7 @@ inline function floatSum(arr: AF): Float {
 */
 
 inline function intProd(arr: AI): Int {
-    var ttl = 1;
-    for (i in arr) ttl *= i;
-    return ttl;
+    return arr.fold((num: Int, ttl: Int) -> num * ttl, 1);
 }
 
 /**
@@ -181,9 +215,7 @@ inline function intProd(arr: AI): Int {
 */
 
 inline function floatProd(arr: AF): Float {
-    var ttl:Float = 1.0;
-    for (i in arr) ttl *= i;
-    return ttl;
+    return arr.fold((num: Float, ttl: Float) -> num * ttl, 1);
 }
 
 /**
