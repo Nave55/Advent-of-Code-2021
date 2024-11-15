@@ -1,6 +1,6 @@
 import haxe.Int64;
+import haxe.ds.GenericStack;
 import StringTools.*;
-import Std.*;
 import Tools;
 
 using hx.strings.Strings;
@@ -22,37 +22,36 @@ class Day10 {
         var valid = ["[", "{", "<", "("];
         var mp: Map<String, String> = ["]" => "[", "}" => "{", ")" => "(", ">" => "<", 
                                        "[" => "]", "{" => "}", "(" => ")", "<" => ">"];
-        var scorer: Map<String, Int> = [")" => 3, "]" => 57, "}" => 1197, ">" => 25137];
+        var scorer: Map<String, Int> =  [")" => 3, "]" => 57, "}" => 1197, ">" => 25137];
         var scorer2: Map<String, Int> = [")" => 1, "]" => 2, "}" => 3, ">" => 4];
-        var incomplete: AAS = [];
+        var incomplete: Array<GenericStack<String>> = [];
         var ttl = 0;
         
         for (i in con) {
-            var b: Array<String> = [];
+            var b = new GenericStack<String>();
             for (j in i.split("")) {
-                if (valid.contains(j)) b.push(j);
-                else if (mp[j] == b[b.length - 1]) b.pop();
+                if (valid.contains(j)) b.add(j);
+                else if (mp[j] == b.first()) b.pop();
                 else {
                     ttl += scorer[j];
-                    b = [];
+                    b.add("Corrupt");
                     break;
                 }
             }
-            if (b.length > 0) incomplete.push(b); 
+            if (b.first() != "Corrupt") incomplete.push(b);
         }
 
         var ttl2: AI64 = [];
         for (i in incomplete) {
             var tmp: Int64 = 0;
-            for (j in new ReverseIterator(i.length - 1, 0)) {
+            for (j in i) {
                 tmp *= 5;
-                tmp += scorer2[mp[i[j]]];
+                tmp += scorer2[mp[j]];
             }
             ttl2.push(tmp);
         }
 
         ttl2.sort((a, b) -> Int64.compare(a, b));
-
         return {ttl: ttl, ttl2: ttl2[Std.int(ttl2.length / 2)]};
     }
 }
