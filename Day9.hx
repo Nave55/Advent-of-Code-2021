@@ -9,8 +9,7 @@ class Day9 {
     static function main() {
         var arr = parsefile();
         var s1 = solution1(arr);
-        var m = [for (i in s1.lows) [i.join("") => cast(arrValue(arr, i), Int)]];
-        var s2 = solution2(arr, [for (i in s1.lows) [i]], m);
+        var s2 = solution2(arr, [for (i in s1.lows) [i]], s1.m);
         Sys.println('Part 1: ${s1.pt1}\nPart 2: ${s2}');
     }
 
@@ -30,7 +29,9 @@ class Day9 {
                 }
             }
         }
-        return {lows: lows, pt1: ttl};
+        
+        var m = [for (i in lows) [i.join("") => cast(arrValue(arr, i), Int)]];
+        return {lows: lows, m: m, pt1: ttl};
     }
 
     static function solution2(arr: AANI, lows: AAAI, m: Array<MSI>) {
@@ -44,12 +45,15 @@ class Day9 {
             var tmp: AAI = [];
             for (j in i) {
                 var lowest: Int = arrValue(arr, j);
-                var n4 = nbrs(arr, j).indices.filter(item -> arrValue(arr, item) != 9 && cast(arrValue(arr, item), Int) > lowest && !m[ind].exists(item.join("")));
+                var n4 = nbrs(arr, j).indices.filter(item -> arrValue(arr, item) != 9 && 
+                                                     cast(arrValue(arr, item), Int) > lowest && 
+                                                     !m[ind].exists(item.join("")));
                 tmp = tmp.concat(n4);
                 for (vals in n4) m[ind][vals.join("")] = arrValue(arr, vals);
             }
             lows[ind] = tmp;
         }
+
         return solution2(arr, lows, m);
     }   
 }
