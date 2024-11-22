@@ -400,48 +400,52 @@ abstract Pipe<T>(T) to T {
 
         var set1: Set<Int> = new Set<Int>([1, 2, 3, 4, 2, 4]);
 
-        var set2: Set<Int> = new Set<Int>([1, 2, 5]); 
+        var set2: Array<Int> = [1, 2, 5]; 
 
-        Sys.println(set1.intersection(set2)); -> [1, 2];
+        Sys.println(set1 & set2); -> [1, 2];
 
-        Sys.println(set1.union(set2)); -> [1, 2, 3, 4, 5];
+        Sys.println(set1 | set2); -> [1, 2, 3, 4, 5];
  */
 
 @:generic
-class Set<T> {
-    public var set: Array<T> = [];
-    
+abstract Set<T>(Array<T>) {
     public function new(set: Array<T>) {
         var tmp: Array<T> = [];
         for (i in set) {
             if (!tmp.contains(i)) tmp.push(i); 
         }
-        this.set = tmp;
+        this = tmp;
     }
 
-    public function push(val: T) {
-        if (!set.contains(val)) set.push(val);
-        else Sys.println('${val} in set already');
+    public inline function push(val: T) {
+        if (!this.contains(val)) this.push(val);
     } 
 
-    public function intersection(sec_set: Set<T>) {
+    @:op(A & B)
+    public function intersection(sec_set: Array<T>) {
         var result: Array<T> = [];
     
-        for (i in set) {
-            if (sec_set.set.contains(i) && !result.contains(i)) {
+        for (i in this) {
+            if (sec_set.contains(i) && !result.contains(i)) {
                 result.push(i);
             }
         } 
         return result;
     }
 
-    public function union(sec_set: Set<T>) {
+    @:op(A | B) 
+    public function union(sec_set: Array<T>) {
         var result: Array<T> = [];
-        var comb = set.concat(sec_set.set);
+        var comb = this.concat(sec_set);
         
         for (i in comb) {
             if (!result.contains(i)) result.push(i);
         }
         return result;
+    }
+
+    @:op(A++)
+    public inline function rtrnArray() {
+        return this;
     }
 }
