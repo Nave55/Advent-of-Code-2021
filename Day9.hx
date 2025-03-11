@@ -14,7 +14,7 @@ class Day9 {
     }
 
     static inline function parsefile() {
-        return [for (i in sys.io.File.getContent('Advent Files_2021/Refac.txt').split('\n')) trim(i).split('').map(item -> parseInt(item))]; 
+        return [for (i in sys.io.File.getContent('Advent Files_2021/Day9.txt').split('\n')) trim(i).split('').map(item -> parseInt(item))]; 
     }
 
     static function solution1(arr: AANI) {
